@@ -22,7 +22,7 @@ class Scanner:
         self.current += 1
         return self.source[self.current]    
 
-    def add_token(self, tokentype: TokenType, literal = None):
+    def add_token(self, tokentype: TokenType, literal=None):
         text = self.source[self.start, self.current]
         self.tokens.append(Token(tokentype, text, literal, self.line))
 
@@ -36,6 +36,23 @@ class Scanner:
     def peek(self):
         if self.is_at_end(): return '\0'
         return self.source[self.current]
+
+    def string(self):
+        while self.peek() != '"' and not self.is_at_end():
+            if self.peek() == '\n': self.line += 1
+            self.advance()
+
+        if self.is_at_end():
+            Lox().error(self.line, "Unterminated string.")
+            return
+
+        # The closing ".
+        self.advance()
+
+        # Trim the surrounding quotes
+        value = self.source[self.start+1:self.current-1]
+        self.add_token(TokenType.STRING, value)
+        # UPDATE: Support for escape sequences
 
     def scan_token(self):
         c = self.advance()
@@ -66,6 +83,8 @@ class Scanner:
                 pass
             case '\n':
                 self.line += 1
+            case '"':
+                self.string()
             case _:
                 Lox().error(self.line, "Unexpected character.")
         return
