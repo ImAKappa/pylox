@@ -19,8 +19,8 @@ class Scanner:
         return self.current >= len(self.source)
 
     def advance(self):
-        self.curent += 1
-        return self.source[self.current]
+        self.current += 1
+        return self.source[self.current]    
 
     def add_token(self, tokentype: TokenType, literal = None):
         text = self.source[self.start, self.current]
@@ -32,6 +32,10 @@ class Scanner:
         if self.source[self.current] != expected: return False
         self.current += 1
         return True
+
+    def peek(self):
+        if self.is_at_end(): return '\0'
+        return self.source[self.current]
 
     def scan_token(self):
         c = self.advance()
@@ -53,6 +57,15 @@ class Scanner:
             case '/':
                 if self.match('/'):
                     # A comment goes until the end of the line.
+                    while (self.peek() != '\n' and not self.is_at_end()):
+                        self.advance()
+                else:
+                    self.add_token(TokenType.SLASH)
+            case ' ' | '\r' | '\t':
+                # Ignore whitespace
+                pass
+            case '\n':
+                self.line += 1
             case _:
                 Lox().error(self.line, "Unexpected character.")
         return
