@@ -9,7 +9,7 @@ args = sys.argv
 logger = logging.getLogger('pylox')
 logger.setLevel(logging.DEBUG)
 
-lox = Lox(logger=logger)
+lox = Lox()
 
 if __name__ == "__main__":
 

@@ -3,10 +3,16 @@ import io
 import logging
 import sys
 
-from scanner import Scanner
+from scanner import Scanner, ScannerError
+
+from rich.logging import RichHandler
+
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 class Lox:
 
@@ -24,9 +30,14 @@ class Lox:
 
     def run(self, source: str):
         scanner = Scanner(source)
-        tokens = scanner.scan_tokens()
-        for token in tokens:
-            logger.info(repr(token))
+        try:
+            tokens = scanner.scan_tokens()
+            # tokens = [1, 2, 3]
+        except ScannerError as e:
+            self.error(e.line, e.message)
+        else:
+            for token in tokens:
+                logger.info(repr(token))
         return
 
     def run_file(self, file: Path):
