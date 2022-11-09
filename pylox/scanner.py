@@ -26,6 +26,13 @@ class Scanner:
         text = self.source[self.start, self.current]
         self.tokens.append(Token(tokentype, text, literal, self.line))
 
+    def match(self, expected: str):
+        """Conditional advance; depends on if the advance char matches expected"""
+        if self.is_at_end(): return False
+        if self.source[self.current] != expected: return False
+        self.current += 1
+        return True
+
     def scan_token(self):
         c = self.advance()
         match c:
@@ -39,6 +46,13 @@ class Scanner:
             case '+': self.add_token(TokenType.PLUS)
             case ';': self.add_token(TokenType.SEMICOLON)
             case '*': self.add_token(TokenType.STAR)
+            case '!': self.add_token(TokenType.BANG_EQUAL if self.match('=') else TokenType.EQUAL)
+            case '=': self.add_token(TokenType.EQUAL_EQUAL if self.match('=') else TokenType.EQUAL)
+            case '<': self.add_token(TokenType.LESS_EQUAL if self.match('=') else TokenType.LESS)
+            case '>': self.add_token(TokenType.GREATER_EQUAL if self.match('=') else TokenType.GREATER)
+            case '/':
+                if self.match('/'):
+                    # A comment goes until the end of the line.
             case _:
                 Lox().error(self.line, "Unexpected character.")
         return
