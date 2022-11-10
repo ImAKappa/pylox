@@ -160,7 +160,6 @@ class Scanner:
 
     def scan_tokens(self):
         while not self.is_at_end():
-            logger.debug(f"{self.current=} {self.is_at_end()}")
             # At beginning of next lexeme
             self.start = self.current
             self.scan_token()
