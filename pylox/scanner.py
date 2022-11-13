@@ -10,10 +10,13 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
-class ScannerError(Exception):
-    """Raise when error occurs during Scanning source file"""
-    def __init__(self, line: int, message: str):            
+from errors import Error
+
+class ScannerError(Error):
+    """Raise when error occurs during Scanning of source file"""
+    def __init__(self, line: int, message: str):       
         super().__init__(message)
         self.message = message
         self.line = line
@@ -155,7 +158,7 @@ class Scanner:
                 elif self.is_alpha(c):
                     self.identifier()
                 else:
-                    raise ScannerError(self.line, "Unexpected character.")
+                    raise ScannerError(self.line, f"Unexpected character: {c}")
         return
 
     def scan_tokens(self):
@@ -166,3 +169,11 @@ class Scanner:
 
         self.tokens.append(Token(TokenType.EOF, "", None, self.line))
         return self.tokens
+
+    def log_tokens(self, start: int=None, end: int=None) -> None:
+        start = 0 if start is None else start
+        end = len(self.tokens) if end is None else min(end, len(self.tokens))
+        logger.info(f"Tokens {start} to {end}:")
+        for token in self.tokens[start:end]:
+            logger.info(f"\t{repr(token)}")
+        return
