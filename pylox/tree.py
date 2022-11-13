@@ -15,19 +15,19 @@ logger = logging.getLogger(__name__)
 class Visitor(ABC):
     
     @abstractmethod
-    def visit_binary(self, binary):
+    def visit_binary(self, expr):
         pass
 
     @abstractmethod
-    def visit_grouping(self, grouping):
+    def visit_grouping(self, expr):
         pass
 
     @abstractmethod
-    def visit_literal(self, literal):
+    def visit_literal(self, expr):
         pass
 
     @abstractmethod
-    def visit_unary(self, unary):
+    def visit_unary(self, expr):
         pass
 
 class Expr(ABC):
