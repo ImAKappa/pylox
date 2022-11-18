@@ -1,23 +1,22 @@
+#!/usr/bin/env python3
+"""lox.py
+
+Main module for Lox interpreter
+"""
+
+# stdlib
 from pathlib import Path
 import io
-import logging
 import sys
-
+# app
 from loxtoken import Token, TokenType
 from astprinter import AstPrinter
 from scanner import Scanner, ScannerError
 from parser import Parser, ParserError
 from interpreter import Interpreter, LoxRuntimeError
-
-from rich.logging import RichHandler
-
-FORMAT = "%(message)s"
-logging.basicConfig(
-    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
-)
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+# logs
+from utils.ezlog import new_logger
+logger = new_logger(__name__)
 
 class Lox:
 
@@ -27,7 +26,7 @@ class Lox:
         self.interpreter = Interpreter()
 
     def report(self, line: int, where: str, message: str) -> None:
-        logger.error(f"[line {line}] Error {where}: {message}")
+        logger.error(f"[line {line}] {where}: {message}")
         self.had_error = True
         return
 
@@ -39,7 +38,7 @@ class Lox:
         return
 
     def runtime_error(self, error: LoxRuntimeError):
-        logger.info(f"\n[line {error.token.line}]")
+        logger.error(f"[line {error.token.line}] {error.message}")
         self.had_runtime_error = True
         return
 
@@ -53,8 +52,6 @@ class Lox:
         except ScannerError as e:
             self.report(e.line, "", e.message)
             return
-        else:
-            scanner.log_tokens(end=5)
         finally:
             if self.had_error:
                 return
@@ -99,6 +96,7 @@ class Lox:
                 self.run(line)
                 # Error shoudn't end interactive session
                 self.had_error = False
+                self.had_runtime_error = False
             except EOFError:
                 break
         sys.exit(64)

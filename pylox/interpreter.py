@@ -1,15 +1,18 @@
-import logging
-from rich.logging import RichHandler
-FORMAT = "%(message)s"
-logging.basicConfig(
-    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
-)
-logger = logging.getLogger(__name__)
+#!/usr/bin/env python3
+"""interpreter.py
 
-from errors import Error
+Module for Interpreter component of Lox interpreter
+"""
 
+# logs
+from utils.ezlog import new_logger
+logger = new_logger(__name__)
+from rich import print as rprint
+# app
 from loxtoken import Token, TokenType
 from tree import Visitor, Expr, Binary, Unary, Literal, Grouping
+# errors
+from errors import Error
 
 class LoxRuntimeError(Error):
     """Raise when runtime error occurs"""
@@ -27,7 +30,7 @@ class Interpreter(Visitor):
     def interpret(self, expression):
         try:
             value = self.evaluate(expression)
-            logger.info(self.stringify(value))
+            rprint(self.stringify(value))
         except LoxRuntimeError as e:
             raise
 
@@ -37,10 +40,10 @@ class Interpreter(Visitor):
         if isinstance(obj, float):
             text = str(obj)
             if text.endswith(".0"):
-                text = text[0, len(text) - 2]
+                text = text[0:len(text) - 2]
             return text
 
-        return str(obj)
+        return f"'{str(obj)}'"
 
     def evaluate(self, expr: Expr):
         return expr.accept(self)
