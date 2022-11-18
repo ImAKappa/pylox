@@ -8,6 +8,8 @@ Main module for Lox interpreter
 from pathlib import Path
 import io
 import sys
+# rich
+from rich import print as rprint
 # app
 from loxtoken import Token, TokenType
 from astprinter import AstPrinter
@@ -87,10 +89,14 @@ class Lox:
         if self.had_runtime_error: sys.exit(70)
         return
 
+    def print_prompt(self) -> None:
+        rprint("[bold white]>[/bold white] ", end="")
+        return
+
     def run_prompt(self):
         logger.debug("Starting prompt")
         while True:
-            print("> ", end="")
+            self.print_prompt()
             try:
                 line = input()
                 self.run(line)
