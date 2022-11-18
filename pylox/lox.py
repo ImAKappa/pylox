@@ -7,6 +7,7 @@ from loxtoken import Token, TokenType
 from astprinter import AstPrinter
 from scanner import Scanner, ScannerError
 from parser import Parser, ParserError
+from interpreter import Interpreter, LoxRuntimeError
 
 from rich.logging import RichHandler
 
@@ -22,6 +23,8 @@ class Lox:
 
     def __init__(self):
         self.had_error = False
+        self.had_runtime_error = False
+        self.interpreter = Interpreter()
 
     def report(self, line: int, where: str, message: str) -> None:
         logger.error(f"[line {line}] Error {where}: {message}")
@@ -35,7 +38,13 @@ class Lox:
             self.report(token.line, f"at '{token.lexeme}'", message)
         return
 
+    def runtime_error(self, error: LoxRuntimeError):
+        logger.info(f"\n[line {error.token.line}]")
+        self.had_runtime_error = True
+        return
+
     def run(self, source: str) -> None:
+        # Scan
         logger.debug("Creating Scanner")
         scanner = Scanner(source)
         try:
@@ -46,7 +55,11 @@ class Lox:
             return
         else:
             scanner.log_tokens(end=5)
+        finally:
+            if self.had_error:
+                return
         
+        # Parse
         try:
             logger.debug("Creating parser")
             parser = Parser(tokens)
@@ -54,17 +67,27 @@ class Lox:
             expression = parser.parse()
         except ParserError as e:
             self.error(e.token, e.message)
+        else:
+            logger.debug(AstPrinter().print(expression))
         finally:
-            if self.had_error: return
+            if self.had_error:
+                return
 
-        logger.info(AstPrinter().print(expression))
+        # Interpret
+        try:
+            logger.debug("Running interpreter")
+            self.interpreter.interpret(expression)
+        except LoxRuntimeError as e:
+            self.runtime_error(e)
+
         return
 
     def run_file(self, file: Path):
         with io.open(file, mode="r") as f:
             source = f.read()
         self.run(source)
-        if self.had_error: sys.exit(64)
+        if self.had_error: sys.exit(65)
+        if self.had_runtime_error: sys.exit(70)
         return
 
     def run_prompt(self):
