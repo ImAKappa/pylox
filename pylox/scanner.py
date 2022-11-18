@@ -1,17 +1,17 @@
-import logging
+#!/usr/bin/env python3
+"""scanner.py
+
+Module for Scanner component of Lox Interpreter 
+"""
+
+# stdlib
+from utils.ezlog import new_logger
+logger = new_logger(__name__)
+# app modules
 from loxtoken import Token
 from tokentype import TokenType
 
-from rich.logging import RichHandler
-
-FORMAT = "%(message)s"
-logging.basicConfig(
-    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
-)
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
+# Errors
 from errors import Error
 
 class ScannerError(Error):
