@@ -83,8 +83,11 @@ class Interpreter(Visitor):
         return a == b
 
     def check_number_operands(self, operator: Token, left, right):
-        if isinstance(left, float) and isinstance(right, float): return
-        raise LoxRuntimeError(operator, "Operands must be the numbers.")
+        if not (isinstance(left, float) and isinstance(right, float)):
+            raise LoxRuntimeError(operator, "Operands must be the numbers.")
+        if right == 0:
+            raise LoxRuntimeError(operator, "Division by Zero is not allowed")
+        return
 
     def visit_binary(self, expr: Binary):
         left = self.evaluate(expr.left)

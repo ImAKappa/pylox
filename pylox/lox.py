@@ -28,7 +28,7 @@ class Lox:
         self.interpreter = Interpreter()
 
     def report(self, line: int, where: str, message: str) -> None:
-        logger.error(f"[line {line}] {where}: {message}")
+        logger.error(f"[line {line}] Error {where}: {message}")
         self.had_error = True
         return
 
@@ -51,6 +51,7 @@ class Lox:
         try:
             logger.debug("Generating tokens")
             tokens = scanner.scan_tokens()
+            scanner.log_tokens()
         except ScannerError as e:
             self.report(e.line, "", e.message)
             return
