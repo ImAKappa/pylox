@@ -15,6 +15,8 @@ from errors import Error
 
 from loxtoken import Token, TokenType
 from expr import Expr, Binary, Unary, Literal, Grouping
+from stmt import Stmt
+import stmt
 
 class ParserError(Error):
     """Rase when error occurs during Parsing of tokens"""
@@ -29,8 +31,25 @@ class Parser:
         self.tokens = tokens
         self.current = 0
 
-    def parse(self):
-        return self.expression()
+    def parse(self) -> list[Stmt]:
+        statements = list()
+        while (not self.is_at_end()):
+            statements.append(self.statement())
+        return statements
+
+    def statement(self) -> Stmt:
+        if self.match(TokenType.PRINT): return self.print_stmt()
+        return self.expr_stmt()
+
+    def print_stmt(self):
+        value: Expr = self.expression()
+        self.consume(TokenType.SEMICOLON, "Expect ';' after value.")
+        return stmt.Print(value)
+
+    def expr_stmt(self):
+        value: Expr = self.expression()
+        self.consume(TokenType.SEMICOLON, "Expect ';' after value.")
+        return stmt.Expression(value)
 
     def peek(self) -> Token:
         return self.tokens[self.current]

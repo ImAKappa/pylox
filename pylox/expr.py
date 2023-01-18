@@ -6,9 +6,6 @@ Module for defining Expression nodes in the Lox AST
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from loxtoken import Token
-# logs
-from utils.ezlog import new_logger
-logger = new_logger(__name__)
 
 class Visitor(ABC):
     

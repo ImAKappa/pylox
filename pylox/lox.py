@@ -65,11 +65,12 @@ class Lox:
             logger.debug("Creating parser")
             parser = Parser(tokens)
             logger.debug("Generating expression tree")
-            expression = parser.parse()
+            statements = parser.parse()
         except ParserError as e:
             self.error(e.token, e.message)
         else:
-            logger.debug(self.astprinter.print(expression))
+            # logger.debug(self.astprinter.print(statements)) TODO
+            pass
         finally:
             if self.had_error:
                 return
@@ -77,7 +78,7 @@ class Lox:
         # Interpret
         try:
             logger.debug("Running interpreter")
-            self.interpreter.interpret(expression)
+            self.interpreter.interpret(statements)
         except LoxRuntimeError as e:
             self.runtime_error(e)
 

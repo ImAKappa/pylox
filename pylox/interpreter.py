@@ -9,7 +9,10 @@ logger = new_logger(__name__)
 from rich import print as rprint
 # app
 from loxtoken import Token, TokenType
-from expr import Visitor, Expr, Binary, Unary, Literal, Grouping
+from expr import Expr, Binary, Unary, Literal, Grouping
+import expr
+from stmt import Expression, Print
+import stmt
 # errors
 from errors import Error
 
@@ -20,18 +23,22 @@ class LoxRuntimeError(Error):
         self.message = message
         self.token = token
 
-class Interpreter(Visitor):
+class Interpreter(expr.Visitor, stmt.Visitor):
     """Interprets expressions"""
 
     def __init__(self):
         pass
 
-    def interpret(self, expression):
+    def interpret(self, statements: list[stmt.Stmt]):
         try:
-            value = self.evaluate(expression)
-            rprint(self.stringify(value))
+            for statement in statements:
+                self.execute(statement)
         except LoxRuntimeError as e:
             raise
+
+    def execute(self, statement: stmt.Stmt):
+        statement.accept(self)
+        return
 
     def stringify(self, obj):
         if obj is None: return "nil"
@@ -46,6 +53,18 @@ class Interpreter(Visitor):
 
     def evaluate(self, expr: Expr):
         return expr.accept(self)
+
+    # --- Statements
+
+    def visit_expression(self, stmt: Expression):
+        self.evaluate(stmt.expression)
+
+    def visit_print(self, stmt: Print) -> None:
+        value = self.evaluate(stmt.expression)
+        logger.info(self.stringify(value))
+        return
+
+    # --- Expressions
 
     def visit_literal(self, expr: Literal):
         return expr.value
