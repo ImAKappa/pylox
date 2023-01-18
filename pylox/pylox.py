@@ -1,5 +1,9 @@
-import sys
+"""pylox.py
 
+Main module for running the application
+"""
+
+import sys
 from utils.programinfo import ProgramInfo
 from lox import Lox
 

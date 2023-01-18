@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """interpreter.py
 
 Module for Interpreter component of Lox interpreter

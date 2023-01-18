@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """ezlog.py
 
 Utility for initializing a logger. 

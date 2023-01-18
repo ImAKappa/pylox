@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """scanner.py
 
 Module for Scanner component of Lox Interpreter 
@@ -8,10 +7,7 @@ Module for Scanner component of Lox Interpreter
 from utils.ezlog import new_logger
 logger = new_logger(__name__)
 # app modules
-from loxtoken import Token
-from tokentype import TokenType
-
-# Errors
+from loxtoken import Token, TokenType
 from errors import Error
 
 class ScannerError(Error):

@@ -1,3 +1,8 @@
+"""loxparser.py
+
+Module for parsing lox tokens into an AST
+"""
+
 import logging
 from rich.logging import RichHandler
 FORMAT = "%(message)s"

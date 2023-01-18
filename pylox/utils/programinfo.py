@@ -1,8 +1,11 @@
+"""programinfo.py
+
+Module for templating the program information
+"""
+
 from dataclasses import dataclass
 from rich.console import Console
 from rich.text import Text
-
-
 
 @dataclass
 class ProgramInfo:

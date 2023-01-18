@@ -26,6 +26,7 @@ class Lox:
         self.had_error = False
         self.had_runtime_error = False
         self.interpreter = Interpreter()
+        self.astprinter = AstPrinter()
 
     def report(self, line: int, where: str, message: str) -> None:
         logger.error(f"[line {line}] Error {where}: {message}")
@@ -68,7 +69,7 @@ class Lox:
         except ParserError as e:
             self.error(e.token, e.message)
         else:
-            logger.debug(AstPrinter().print(expression))
+            logger.debug(self.astprinter.print(expression))
         finally:
             if self.had_error:
                 return

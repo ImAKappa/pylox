@@ -1,3 +1,8 @@
+"""expr.py
+
+Module for defining Expression nodes in the Lox AST 
+"""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from loxtoken import Token
