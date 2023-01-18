@@ -10,7 +10,7 @@ logger = new_logger(__name__)
 from rich import print as rprint
 # app
 from loxtoken import Token, TokenType
-from tree import Visitor, Expr, Binary, Unary, Literal, Grouping
+from expr import Visitor, Expr, Binary, Unary, Literal, Grouping
 # errors
 from errors import Error
 

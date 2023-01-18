@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 from errors import Error
 
 from loxtoken import Token, TokenType
-from tree import Expr, Binary, Unary, Literal, Grouping
+from expr import Expr, Binary, Unary, Literal, Grouping
 
 class ParserError(Error):
     """Rase when error occurs during Parsing of tokens"""

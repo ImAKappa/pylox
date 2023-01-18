@@ -14,7 +14,7 @@ from rich import print as rprint
 from loxtoken import Token, TokenType
 from astprinter import AstPrinter
 from scanner import Scanner, ScannerError
-from parser import Parser, ParserError
+from loxparser import Parser, ParserError
 from interpreter import Interpreter, LoxRuntimeError
 # logs
 from utils.ezlog import new_logger

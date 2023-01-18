@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from loxtoken import Token, TokenType
-from tree import Visitor, Expr, Binary, Grouping, Literal, Unary
+from expr import Visitor, Expr, Binary, Grouping, Literal, Unary
 
 class AstPrinter(Visitor):
 

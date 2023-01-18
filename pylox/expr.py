@@ -1,16 +1,9 @@
-import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from loxtoken import Token
-
-from rich.logging import RichHandler
-
-FORMAT = "%(message)s"
-logging.basicConfig(
-    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
-)
-
-logger = logging.getLogger(__name__)
+# logs
+from utils.ezlog import new_logger
+logger = new_logger(__name__)
 
 class Visitor(ABC):
     
