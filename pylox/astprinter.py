@@ -6,7 +6,7 @@ Module for printing the Abstract Syntax Tree
 # TODO: Update to handle Statements and not just Expressions
 
 from loxtoken import Token, TokenType
-from expr import Visitor, Expr, Binary, Grouping, Literal, Unary
+from expr import Visitor, Expr, Binary, Grouping, Literal, Unary, Variable
 
 class AstPrinter(Visitor):
 
@@ -32,6 +32,9 @@ class AstPrinter(Visitor):
 
     def visit_unary(self, expr: Unary):
         return self.parenthesize(expr.operator.lexeme, expr.right)
+
+    def visit_variable(self, expr: Variable):
+        return str(expr.name)
 
 if __name__ == "__main__":
     expression: Expr = Binary(

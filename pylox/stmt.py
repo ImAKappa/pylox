@@ -54,18 +54,22 @@ class Stmt(ABC):
 
 @dataclass
 class Print(Stmt):
-
-    def __init__(self, expression: Expr):
-        self.expression = expression
+    expression: Expr
 
     def accept(self, visitor: Visitor):
         return visitor.visit_print(self)
 
 @dataclass
 class Expression(Stmt):
-
-    def __init__(self, expression: Expr):
-        self.expression = expression
+    expression: Expr
 
     def accept(self, visitor: Visitor):
         return visitor.visit_expression(self)
+
+@dataclass
+class Var(Stmt):
+    name: Token
+    initializer: Expr
+
+    def accept(self, visitor: Visitor):
+        return visitor.visit_var(self)

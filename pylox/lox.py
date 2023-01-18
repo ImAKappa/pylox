@@ -81,7 +81,6 @@ class Lox:
             self.interpreter.interpret(statements)
         except LoxRuntimeError as e:
             self.runtime_error(e)
-
         return
 
     def run_file(self, file: Path):

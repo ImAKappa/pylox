@@ -9,10 +9,11 @@ logger = new_logger(__name__)
 from rich import print as rprint
 # app
 from loxtoken import Token, TokenType
-from expr import Expr, Binary, Unary, Literal, Grouping
+from expr import Expr, Binary, Unary, Literal, Grouping, Variable
 import expr
-from stmt import Expression, Print
+from stmt import Expression, Print, Var
 import stmt
+from environment import Environment
 # errors
 from errors import Error
 
@@ -27,7 +28,7 @@ class Interpreter(expr.Visitor, stmt.Visitor):
     """Interprets expressions"""
 
     def __init__(self):
-        pass
+        self.environment = Environment()
 
     def interpret(self, statements: list[stmt.Stmt]):
         try:
@@ -58,10 +59,19 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
     def visit_expression(self, stmt: Expression):
         self.evaluate(stmt.expression)
+        return
 
     def visit_print(self, stmt: Print) -> None:
         value = self.evaluate(stmt.expression)
         logger.info(self.stringify(value))
+        return
+
+    def visit_var(self, stmt: Var):
+        value = None
+        if (stmt.initializer is not None):
+            value = self.evaluate(stmt.initializer)
+        
+        self.environment.define(stmt.name.lexeme, value)
         return
 
     # --- Expressions
@@ -94,6 +104,11 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
         # Unreachable
         return
+
+    def visit_variable(self, expr: Variable):
+        return self.environment.get(expr.name)
+
+    # ---
 
     def is_equal(self, a, b):
         # if a is None and b is None: return True

@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 from errors import Error
 
 from loxtoken import Token, TokenType
-from expr import Expr, Binary, Unary, Literal, Grouping
+from expr import Expr, Binary, Unary, Literal, Grouping, Variable
 from stmt import Stmt
 import stmt
 
@@ -34,8 +34,26 @@ class Parser:
     def parse(self) -> list[Stmt]:
         statements = list()
         while (not self.is_at_end()):
-            statements.append(self.statement())
+            statements.append(self.declaration())
         return statements
+
+    def declaration(self) -> Stmt:
+        try:
+            if self.match(TokenType.VAR): return self.var_declaration()
+            return self.statement()
+        except ParserError as e:
+            self.synchronize()
+            raise
+            
+    def var_declaration(self):
+        name: Token = self.consume(TokenType.IDENTIFIER, "Expect variable name")
+
+        initializer: Expr = None
+        if self.match(TokenType.EQUAL):
+            initializer = self.expression()
+
+        self.consume(TokenType.SEMICOLON, "Expect ';' after variable declaration")
+        return stmt.Var(name, initializer)
 
     def statement(self) -> Stmt:
         if self.match(TokenType.PRINT): return self.print_stmt()
@@ -94,15 +112,17 @@ class Parser:
                 return True
         return False
 
-    def consume(self, type: TokenType, message: str):
-        if self.check(type): return self.advance()
-
-        raise self.error(self.peek(), message)
+    def consume(self, toktype: TokenType, message: str):
+        if self.check(toktype):
+            return self.advance()
+        else:
+            raise self.error(self.peek(), message)
 
     def primary(self):
         if self.match(TokenType.FALSE): return Literal(False)
         if self.match(TokenType.TRUE): return Literal(True)
         if self.match(TokenType.NIL): return Literal(None)
+        if self.match(TokenType.IDENTIFIER): return Variable(self.previous())
 
         if self.match(TokenType.NUMBER, TokenType.STRING):
             return Literal(self.previous().literal)
