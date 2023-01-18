@@ -73,3 +73,10 @@ class Var(Stmt):
 
     def accept(self, visitor: Visitor):
         return visitor.visit_var(self)
+
+@dataclass
+class Block(Stmt):
+    statements: list[Stmt]
+
+    def accept(self, visitor: Visitor):
+        return visitor.visit_block(self)

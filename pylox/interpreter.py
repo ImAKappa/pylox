@@ -9,9 +9,9 @@ logger = new_logger(__name__)
 from rich import print as rprint
 # app
 from loxtoken import Token, TokenType
-from expr import Expr, Binary, Unary, Literal, Grouping, Variable
+from expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
 import expr
-from stmt import Expression, Print, Var
+from stmt import Expression, Print, Var, Block
 import stmt
 from environment import Environment
 # errors
@@ -68,10 +68,27 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
     def visit_var(self, stmt: Var):
         value = None
-        if (stmt.initializer is not None):
+        if stmt.initializer:
             value = self.evaluate(stmt.initializer)
         
         self.environment.define(stmt.name.lexeme, value)
+        return
+
+    def visit_block(self, stmt: Block):
+        self.execute_block(stmt.statements, Environment(self.environment))
+        return
+
+    # ---
+
+    def execute_block(self, statements: list[stmt.Stmt], environment: Environment):
+        previous = self.environment
+        try:
+            self.environment = environment
+
+            for statement in statements:
+                self.execute(statement)
+        finally:
+            self.environment = previous
         return
 
     # --- Expressions
@@ -107,6 +124,11 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
     def visit_variable(self, expr: Variable):
         return self.environment.get(expr.name)
+
+    def visit_assign(self, expr: Assign):
+        value = self.evaluate(expr.value)
+        self.environment.assign(expr.name, value)
+        return value
 
     # ---
 

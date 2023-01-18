@@ -29,6 +29,10 @@ class Visitor(ABC):
     def visit_variable(self, expr):
         pass
 
+    @abstractmethod
+    def visit_assign(self, expr):
+        pass
+
 class Expr(ABC):
     @abstractmethod
     def accept(self, visitor: Visitor):
@@ -71,3 +75,11 @@ class Variable(Expr):
 
     def accept(self, visitor: Visitor):
         return visitor.visit_variable(self)
+
+@dataclass
+class Assign(Expr):
+    name: Token
+    value: Expr
+
+    def accept(self, visitor: Visitor):
+        return visitor.visit_assign(self)

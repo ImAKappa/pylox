@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 from errors import Error
 
 from loxtoken import Token, TokenType
-from expr import Expr, Binary, Unary, Literal, Grouping, Variable
+from expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
 from stmt import Stmt
 import stmt
 
@@ -57,12 +57,21 @@ class Parser:
 
     def statement(self) -> Stmt:
         if self.match(TokenType.PRINT): return self.print_stmt()
+        if self.match(TokenType.LEFT_BRACE): return stmt.Block(self.block())
         return self.expr_stmt()
 
     def print_stmt(self):
         value: Expr = self.expression()
         self.consume(TokenType.SEMICOLON, "Expect ';' after value.")
         return stmt.Print(value)
+
+    def block(self):
+        statements: list[Stmt] = list()
+        while not self.check(TokenType.RIGHT_BRACE) and not self.is_at_end():
+            statements.append(self.declaration())
+
+        self.consume(TokenType.RIGHT_BRACE, "Expect '}' after block.")
+        return statements
 
     def expr_stmt(self):
         value: Expr = self.expression()
@@ -178,4 +187,18 @@ class Parser:
         return expr
 
     def expression(self) -> Expr:
-        return self.equality()
+        return self.assignment()
+
+    def assignment(self) -> Expr:
+        expr = self.equality()
+
+        if self.match(TokenType.EQUAL):
+            equals: Token = self.previous()
+            value: Expr = self.assignment()
+
+            if isinstance(expr, Variable):
+                name: Token = expr.name
+                return Assign(name, value)
+            
+            self.error(equals, "Invalid assignment target")
+        return expr
