@@ -1,6 +1,6 @@
 """pylox.py
 
-Main module for running the application
+Main module for running the pylox application
 """
 
 import sys
@@ -17,13 +17,7 @@ def toggle_verbose(is_verbose: bool):
         else:
             logger.setLevel(logging.ERROR)
 
-if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-s", "--src", help="path to source file", type=Path)
-    parser.add_argument("--verbose", help="increase output verbosity", action="store_true")
-    args = parser.parse_args()
-
+def main(src: Path = None, is_verbose = False):
     lox = Lox()
 
     pylox_info = ProgramInfo(
@@ -31,16 +25,29 @@ if __name__ == "__main__":
         version="0.1.0",
         docs_url="https://craftinginterpreters.com/"
     )
-    
-    is_verbose: bool = args.verbose
+
     if is_verbose:
         toggle_verbose(True)
     else:
         toggle_verbose(False)
 
-    src: Path = args.src
-    if src and src.exists():
-        lox.run_file(args)
+    if src:
+        if not src.exists():
+            print("Could not find file")
+            sys.exit(64)
+        lox.run_file(src)
     else:
         pylox_info.print()
         lox.run_prompt()
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-s", "--src", help="path to source file", type=Path)
+    parser.add_argument("--verbose", help="increase output verbosity", action="store_true")
+    args = parser.parse_args()
+
+    is_verbose: bool = args.verbose
+    src: Path = args.src
+
+    main(src=src, is_verbose=is_verbose)

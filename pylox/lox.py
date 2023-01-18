@@ -30,7 +30,8 @@ class Lox:
         self.astprinter = AstPrinter()
 
     def report(self, line: int, where: str, message: str) -> None:
-        logger.error(f"[line {line}] Error {where}: {message}")
+        # logger.error(f"[line {line}] Error {where}: {message}")
+        rprint(f"[line {line}] Error {where}: {message}")
         self.had_error = True
         return
 
