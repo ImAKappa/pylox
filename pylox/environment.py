@@ -14,7 +14,6 @@ class BindingError(Error):
         self.message = message
         self.token = token
 
-
 class Environment:
 
     def __init__(self):
@@ -24,7 +23,7 @@ class Environment:
         self.values[name] = value
 
     def get(self, name: Token):
-        if (name in self.values.keys()):
+        if name.lexeme in self.values:
             return self.values.get(name.lexeme)
 
         raise BindingError(name, f"Undefined variable '{name.lexeme}'.")
