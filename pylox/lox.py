@@ -17,6 +17,7 @@ from scanner import Scanner, ScannerError
 from loxparser import Parser, ParserError
 from interpreter import Interpreter, LoxRuntimeError
 # logs
+import logging
 from utils.ezlog import new_logger
 logger = new_logger(__name__)
 

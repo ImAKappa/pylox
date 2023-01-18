@@ -63,7 +63,7 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
     def visit_print(self, stmt: Print) -> None:
         value = self.evaluate(stmt.expression)
-        logger.info(self.stringify(value))
+        rprint(self.stringify(value))
         return
 
     def visit_var(self, stmt: Var):
