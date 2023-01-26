@@ -3,20 +3,16 @@
 Module for parsing lox tokens into an AST
 """
 
-import logging
-from rich.logging import RichHandler
-FORMAT = "%(message)s"
-logging.basicConfig(
-    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
-)
-logger = logging.getLogger(__name__)
+# logs
+from utils.ezlog import new_logger
+logger = new_logger(__name__)
 
-from errors import Error
+from engine.errors import Error
 
-from loxtoken import Token, TokenType
-from expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
-from stmt import Stmt
-import stmt
+from engine.loxtoken import Token, TokenType
+from engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
+from engine.stmt import Stmt
+import engine.stmt as stmt
 
 class ParserError(Error):
     """Rase when error occurs during Parsing of tokens"""
@@ -27,9 +23,10 @@ class ParserError(Error):
 
 class Parser:
 
-    def __init__(self, tokens: list[Token]):
+    def __init__(self, tokens: list[Token], repl_mode: bool):
         self.tokens = tokens
         self.current = 0
+        self.repl_mode = repl_mode
 
     def parse(self) -> list[Stmt]:
         statements = list()
@@ -75,7 +72,8 @@ class Parser:
 
     def expr_stmt(self):
         value: Expr = self.expression()
-        self.consume(TokenType.SEMICOLON, "Expect ';' after value.")
+        if not self.repl_mode:
+            self.consume(TokenType.SEMICOLON, "Expect ';' after value.")
         return stmt.Expression(value)
 
     def peek(self) -> Token:

@@ -5,8 +5,8 @@ Module for printing the Abstract Syntax Tree
 
 # TODO: Update to handle Statements and not just Expressions
 
-from loxtoken import Token, TokenType
-from expr import Visitor, Expr, Binary, Grouping, Literal, Unary, Variable, Assign
+from engine.loxtoken import Token, TokenType
+from engine.expr import Visitor, Expr, Binary, Grouping, Literal, Unary, Variable, Assign
 
 class AstPrinter(Visitor):
 

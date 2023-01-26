@@ -11,11 +11,11 @@ import sys
 # rich
 from rich import print as rprint
 # app
-from loxtoken import Token, TokenType
-from astprinter import AstPrinter
-from scanner import Scanner, ScannerError
-from loxparser import Parser, ParserError
-from interpreter import Interpreter, LoxRuntimeError
+from engine.loxtoken import Token, TokenType
+from cli.astprinter import AstPrinter
+from engine.scanner import Scanner, ScannerError
+from engine.loxparser import Parser, ParserError
+from engine.interpreter import Interpreter, LoxRuntimeError
 # logs
 import logging
 from utils.ezlog import new_logger
@@ -47,7 +47,7 @@ class Lox:
         self.had_runtime_error = True
         return
 
-    def run(self, source: str) -> None:
+    def run(self, source: str, repl_mode = False) -> None:
         # Scan
         logger.debug("Creating Scanner")
         scanner = Scanner(source)
@@ -65,13 +65,13 @@ class Lox:
         # Parse
         try:
             logger.debug("Creating parser")
-            parser = Parser(tokens)
+            parser = Parser(tokens, repl_mode)
             logger.debug("Generating expression tree")
             statements = parser.parse()
         except ParserError as e:
             self.error(e.token, e.message)
         else:
-            # logger.debug(self.astprinter.print(statements)) TODO
+            # logger.debug(self.astprinter.print(statements))
             pass
         finally:
             if self.had_error:
@@ -103,7 +103,7 @@ class Lox:
             self.print_prompt()
             try:
                 line = input()
-                self.run(line)
+                self.run(line, repl_mode=True)
                 # Error shoudn't end interactive session
                 self.had_error = False
                 self.had_runtime_error = False

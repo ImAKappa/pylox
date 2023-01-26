@@ -7,8 +7,8 @@ Module for Scanner component of Lox Interpreter
 from utils.ezlog import new_logger
 logger = new_logger(__name__)
 # app modules
-from loxtoken import Token, TokenType
-from errors import Error
+from engine.loxtoken import Token, TokenType
+from engine.errors import Error
 
 class ScannerError(Error):
     """Raise when error occurs during Scanning of source file"""

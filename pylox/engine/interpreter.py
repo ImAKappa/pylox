@@ -8,14 +8,14 @@ from utils.ezlog import new_logger
 logger = new_logger(__name__)
 from rich import print as rprint
 # app
-from loxtoken import Token, TokenType
-from expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
-import expr
-from stmt import Expression, Print, Var, Block
-import stmt
-from environment import Environment
+from engine.loxtoken import Token, TokenType
+from engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
+import engine.expr as expr
+from engine.stmt import Expression, Print, Var, Block
+import engine.stmt as stmt
+from engine.environment import Environment
 # errors
-from errors import Error
+from engine.errors import Error
 
 class LoxRuntimeError(Error):
     """Raise when runtime error occurs"""
