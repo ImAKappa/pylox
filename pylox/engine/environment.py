@@ -14,6 +14,13 @@ class BindingError(Error):
         self.message = message
         self.token = token
 
+class UninitializedError(Error):
+    """Raise when accessing uninitialized variable"""
+    def __init__(self, token: Token, message: str):
+        super().__init__(message)
+        self.message = message
+        self.token = token
+
 class Environment:
 
     def __init__(self, enclosing=None):
@@ -36,7 +43,10 @@ class Environment:
 
     def get(self, name: Token):
         if name.lexeme in self.values:
-            return self.values.get(name.lexeme)
+            value = self.values.get(name.lexeme)
+            if value is None:
+                raise UninitializedError(name, f"Uninitialized variable '{name.lexeme}'")
+            return value
 
         if self.enclosing:
             return self.enclosing.get(name)
