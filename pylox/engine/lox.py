@@ -111,6 +111,8 @@ class Lox:
                 # Error shoudn't end interactive session
                 self.had_error = False
                 self.had_runtime_error = False
+            except KeyboardInterrupt as e:
+                break
             except EOFError:
                 break
         sys.exit(64)

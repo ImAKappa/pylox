@@ -26,5 +26,9 @@ class ProgramInfo:
             (f"Docs: '{self.docs_url}'", "green")
         )
         console.print(text)
+        text = Text.assemble(
+            ("exit using ctrl+z or ctrl+c", "grey62")
+        )
+        console.print(text)
         return
     
