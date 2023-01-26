@@ -26,9 +26,11 @@ class LoxRuntimeError(Error):
 
 class Interpreter(expr.Visitor, stmt.Visitor):
     """Interprets expressions"""
+    # TODO: Evaluate expressions in REPL mode
 
-    def __init__(self):
+    def __init__(self, repl_mode: bool):
         self.environment = Environment()
+        self.repl_mode = repl_mode
 
     def interpret(self, statements: list[stmt.Stmt]):
         try:
@@ -60,7 +62,9 @@ class Interpreter(expr.Visitor, stmt.Visitor):
     # --- Statements
 
     def visit_expression(self, stmt: Expression):
-        self.evaluate(stmt.expression)
+        value = self.evaluate(stmt.expression)
+        if self.repl_mode:
+            rprint(self.stringify(value))
         return
 
     def visit_print(self, stmt: Print) -> None:

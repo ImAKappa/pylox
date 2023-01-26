@@ -26,7 +26,7 @@ class Lox:
     def __init__(self):
         self.had_error = False
         self.had_runtime_error = False
-        self.interpreter = Interpreter()
+        self.interpreter = Interpreter(repl_mode=False)
         self.astprinter = AstPrinter()
 
     def report(self, line: int, where: str, message: str) -> None:
@@ -47,7 +47,7 @@ class Lox:
         self.had_runtime_error = True
         return
 
-    def run(self, source: str, repl_mode = False) -> None:
+    def run(self, source: str, repl_mode=False) -> None:
         # Scan
         logger.debug("Creating Scanner")
         scanner = Scanner(source)
@@ -79,6 +79,7 @@ class Lox:
                 return
 
         # Interpret
+        self.interpreter.repl_mode = repl_mode
         try:
             logger.debug("Running interpreter")
             self.interpreter.interpret(statements)

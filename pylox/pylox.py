@@ -7,7 +7,6 @@ import sys
 from cli import loxcli, programinfo
 from engine.lox import Lox
 
-
 def main():
     lox = Lox()
 
