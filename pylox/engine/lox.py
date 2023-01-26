@@ -73,7 +73,7 @@ class Lox:
         else:
             logger.debug("Rendering AST")
             for statement in statements:
-                logger.debug(self.astprinter.print(statement))
+                logger.info(self.astprinter.print(statement))
         finally:
             if self.had_error:
                 return

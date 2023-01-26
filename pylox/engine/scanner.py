@@ -38,7 +38,7 @@ class Scanner:
 
     def __init__(self, source: str):
         self.source = source
-        logger.debug(f"{source=}\n{len(source)=}")
+        logger.info(f"{source=}\n{len(source)=}")
         self.tokens: list[Token] = []
         self.start = 0
         self.current = 0
