@@ -68,6 +68,8 @@ class Lox:
             parser = Parser(tokens, repl_mode)
             logger.debug("Generating expression tree")
             statements = parser.parse()
+            for statement in statements:
+                logger.info(statement)
         except ParserError as e:
             self.error(e.token, e.message)
         else:

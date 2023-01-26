@@ -11,7 +11,7 @@ def main():
     lox = Lox()
 
     pylox_info = programinfo.ProgramInfo(
-        name="Pylox",
+        name="Lox",
         version="0.1.0",
         docs_url="https://craftinginterpreters.com/"
     )

@@ -48,15 +48,21 @@ class Interpreter(expr.Visitor, stmt.Visitor):
         return
 
     def stringify(self, obj):
-        if obj is None: return "nil"
+        # Markup [x]...[/x] is based on Rich text formatting: https://rich.readthedocs.io/en/stable/style.html
+        # colours are based on https://craftinginterpreters.com/the-lox-language.html
+        if obj is None: return "[blue]nil[/blue]"
 
         if isinstance(obj, float):
             text = str(obj)
             if text.endswith(".0"):
                 text = text[0:len(text) - 2]
-            return text
+            return f"[dark_orange3]{text}[dark_orange3]"
 
-        return f"'{str(obj)}'"
+        if isinstance(obj, bool):
+            text = str(obj)
+            return f"[deep_sky_blue1]{text.lower()}[/deep_sky_blue1]"
+
+        return f"[gold3]'{obj}'[/gold3]"
 
     def evaluate(self, expr: Expr):
         return expr.accept(self)

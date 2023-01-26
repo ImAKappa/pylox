@@ -19,7 +19,7 @@ class ProgramInfo:
     def print(self) -> None:
         console = Console()
         text = Text.assemble(
-            (self.name, "bold magenta"),
+            (self.name, "bold blue"),
             (" "),
             (self.version),
             (" | "),

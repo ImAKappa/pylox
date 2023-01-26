@@ -37,16 +37,20 @@ class AstPrinter(expr.Visitor, stmt.Visitor):
         return self.parenthesize("group", expr.expression)
 
     def visit_literal(self, expr: Literal):
-        return str(expr.value) if expr.value else "nil"
+        if isinstance(expr.value, bool):
+            return f"'{str(expr.value).lower()}'"
+        if expr.value:
+            return f"'{expr.value}'"
+        return "'nil'"
 
     def visit_unary(self, expr: Unary):
         return self.parenthesize(expr.operator.lexeme, expr.right)
 
     def visit_variable(self, expr: Variable):
-        return str(expr.name)
+        return f"'{expr.name.lexeme}'"
 
     def visit_assign(self, expr: Assign):
-        return self.parenthesize("=", expr.name.lexeme, expr.value)
+        return self.parenthesize("=", expr.value)
 
 if __name__ == "__main__":
     expression: Expr = Binary(
