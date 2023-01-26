@@ -7,10 +7,13 @@ Module for printing the Abstract Syntax Tree
 
 from engine.loxtoken import Token, TokenType
 from engine.expr import Visitor, Expr, Binary, Grouping, Literal, Unary, Variable, Assign
+import engine.expr as expr
+from engine.stmt import Stmt, Expression
+import engine.stmt as stmt
 
-class AstPrinter(Visitor):
+class AstPrinter(expr.Visitor, stmt.Visitor):
 
-    def print(self, expr: Expr):
+    def print(self, expr: Expr | Stmt):
         return expr.accept(self)
 
     def parenthesize(self, name: str, *exprs: list[Expr]):
@@ -20,6 +23,12 @@ class AstPrinter(Visitor):
             out += expr.accept(self)
         out += ")"
         return out
+
+    # --- statements
+    def visit_expression(self, stmt: Expression):
+        return stmt.expression.accept(self)
+
+    # --- expressions
 
     def visit_binary(self, expr: Binary):
         return self.parenthesize(expr.operator.lexeme, expr.left, expr.right)

@@ -13,7 +13,7 @@ from engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
 import engine.expr as expr
 from engine.stmt import Expression, Print, Var, Block
 import engine.stmt as stmt
-from engine.environment import Environment
+from engine.environment import Environment, BindingError
 # errors
 from engine.errors import Error
 
@@ -34,6 +34,8 @@ class Interpreter(expr.Visitor, stmt.Visitor):
         try:
             for statement in statements:
                 self.execute(statement)
+        except BindingError as e:
+            raise LoxRuntimeError(e.token, e.message)
         except LoxRuntimeError as e:
             raise
 

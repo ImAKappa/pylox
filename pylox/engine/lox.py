@@ -71,8 +71,9 @@ class Lox:
         except ParserError as e:
             self.error(e.token, e.message)
         else:
-            # logger.debug(self.astprinter.print(statements))
-            pass
+            logger.debug("Rendering AST")
+            for statement in statements:
+                logger.debug(self.astprinter.print(statement))
         finally:
             if self.had_error:
                 return
