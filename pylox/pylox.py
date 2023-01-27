@@ -22,6 +22,9 @@ def main():
     else:
         loxcli.toggle_verbose(False)
 
+    if args.rpolish:
+        lox.astprinter.rev_polish_notation = True
+
     if args.src:
         if not args.src.exists():
             print("Could not find file")

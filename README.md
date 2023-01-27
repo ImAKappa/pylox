@@ -56,7 +56,7 @@ I use [Hatch](https://hatch.pypa.io/latest/) to manage the Python environment
 
 Ch. 4 Scanning
 
-4. Support for C-style block comments
+- [X] Support for C-style block comments (NOT nestable)
 
 
 Ch. 5 

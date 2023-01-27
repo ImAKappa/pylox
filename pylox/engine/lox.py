@@ -27,7 +27,7 @@ class Lox:
         self.had_error = False
         self.had_runtime_error = False
         self.interpreter = Interpreter(repl_mode=False)
-        self.astprinter = AstPrinter()
+        self.astprinter = AstPrinter(rev_polish_notation=False)
 
     def report(self, line: int, where: str, message: str) -> None:
         # logger.error(f"[line {line}] Error {where}: {message}")

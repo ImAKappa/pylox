@@ -13,15 +13,26 @@ import engine.stmt as stmt
 
 class AstPrinter(expr.Visitor, stmt.Visitor):
 
+    def __init__(self, rev_polish_notation=False):
+        """rpn (Reverse Polish Notation)"""
+        self.rev_polish_notation = rev_polish_notation
+
     def print(self, expr: Expr | Stmt):
         return expr.accept(self)
 
     def parenthesize(self, name: str, *exprs: list[Expr]):
-        out = f"({name}"
-        for expr in exprs:
-            out += " "
-            out += expr.accept(self)
-        out += ")"
+        if self.rev_polish_notation:
+            out = ""
+            for expr in exprs:
+                out += expr.accept(self)
+                out += " "
+            out += name
+        else:
+            out = f"({name}"
+            for expr in exprs:
+                out += " "
+                out += expr.accept(self)
+            out += ")"
         return out
 
     # --- statements

@@ -22,11 +22,13 @@ def toggle_verbose(is_verbose: bool):
 class Args:
     is_verbose: bool
     src: Path | None
+    rpolish: bool
 
 def get_args() -> Args:
     """Handles the various cli arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--src", help="path to source file", type=Path)
     parser.add_argument("--verbose", help="increase output verbosity", action="store_true")
+    parser.add_argument("--rpolish", help="ast prints using Reverse Polish Notation", action="store_true")
     args = parser.parse_args()
-    return Args(args.verbose, args.src)
+    return Args(args.verbose, args.src, args.rpolish)
