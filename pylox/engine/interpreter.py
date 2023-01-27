@@ -155,7 +155,7 @@ class Interpreter(expr.Visitor, stmt.Visitor):
         if not (isinstance(left, float) and isinstance(right, float)):
             raise LoxRuntimeError(operator, "Operands must be the numbers.")
         if right == 0:
-            raise LoxRuntimeError(operator, "Division by Zero is not allowed")
+            raise LoxRuntimeError(operator, "Division by Zero is undefined")
         return
 
     def visit_binary(self, expr: Binary):

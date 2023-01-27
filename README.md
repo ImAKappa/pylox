@@ -54,9 +54,27 @@ I use [Hatch](https://hatch.pypa.io/latest/) to manage the Python environment
 
 ## Challenges
 
-Ch. 4 Scanning
+Ch 4. Scanning
 
 - [X] Support for C-style block comments (NOT nestable)
 
+Ch 5. Representing Code
 
-Ch. 5 
+- [X] AST print Reverse Polish Notation
+
+Ch 6. Parsing Expressions
+
+- [ ] Comma Operator
+- [ ] Ternary Operator
+- [X] Error productions for binary operators without left-hand side expression
+
+Ch 7. Evaluating Expressions
+
+- [] ~~define "+" so that if one operand is string, it coerces other operand to string~~ I don't really like this behaviour with strings. Between floats and ints this is okay, but Lox anyways only has float type
+- [X] handle zero division error
+
+Ch 8. Statements and State
+
+- [X] Evaulate expressions in REPL
+- [X] Runtime error when accessing uninitialized variables
+
