@@ -50,7 +50,7 @@ class Scanner:
     def advance(self):
         c = self.source[self.current]
         self.current += 1
-        return c 
+        return c
 
     def add_token(self, tokentype: TokenType, literal=None):
         text = self.source[self.start:self.current]
@@ -139,6 +139,15 @@ class Scanner:
                     # A comment goes until the end of the line.
                     while (self.peek() != '\n' and not self.is_at_end()):
                         self.advance()
+                elif self.match('*'):
+                    # A block comment goes until a closing '*/'
+                    while (not (self.peek() == '*' and self.peek_next() == '/') and not self.is_at_end()):
+                        self.advance()
+                    if not self.is_at_end():
+                        self.match('*')
+                        self.match('/')
+                    else:
+                        raise ScannerError(self.line, f"Unterminated block comment")
                 else:
                     self.add_token(TokenType.SLASH)
             case ' ' | '\r' | '\t':

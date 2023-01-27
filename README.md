@@ -21,6 +21,7 @@ by Bob Nystrom.
     - [Source files](#source-files)
   - [Installation](#installation)
   - [License](#license)
+  - [Challenges](#challenges)
 
 ## Demo
 
@@ -50,3 +51,12 @@ I use [Hatch](https://hatch.pypa.io/latest/) to manage the Python environment
 ## License
 
 `pylox` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+
+## Challenges
+
+Ch. 4 Scanning
+
+4. Support for C-style block comments
+
+
+Ch. 5 

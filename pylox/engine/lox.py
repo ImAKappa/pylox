@@ -90,7 +90,7 @@ class Lox:
         return
 
     def run_file(self, file: Path):
-        with io.open(file, mode="r") as f:
+        with io.open(file, mode="r", encoding="utf-8") as f:
             source = f.read()
         self.run(source)
         if self.had_error: sys.exit(65)
