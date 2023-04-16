@@ -27,6 +27,7 @@ class ProgramInfo:
         )
         console.print(text)
         text = Text.assemble(
+            # TODO: Handle cross-platform abort
             ("exit using ctrl+z or ctrl+c", "grey62")
         )
         console.print(text)

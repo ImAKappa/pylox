@@ -4,7 +4,8 @@ Main module for running the pylox application
 """
 
 import sys
-from pylox.cli import loxcli, programinfo
+import pylox.cli as loxcli
+from pylox.cli import programinfo
 from pylox.engine.lox import Lox
 
 def main():
