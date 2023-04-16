@@ -4,11 +4,11 @@ Module for Scanner component of Lox Interpreter
 """
 
 # stdlib
-from utils.ezlog import new_logger
+from pylox.utils.ezlog import new_logger
 logger = new_logger(__name__)
 # app modules
-from engine.loxtoken import Token, TokenType
-from engine.errors import Error
+from pylox.engine.loxtoken import Token, TokenType
+from pylox.engine.errors import Error
 
 class ScannerError(Error):
     """Raise when error occurs during Scanning of source file"""

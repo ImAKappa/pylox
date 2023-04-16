@@ -3,9 +3,9 @@
 Module for defining environment of Lox interpreter, the place where variables and values live
 """
 
-from engine.loxtoken import Token
+from pylox.engine.loxtoken import Token
 # errors
-from engine.errors import Error
+from pylox.engine.errors import Error
 
 class BindingError(Error):
     """Raise when runtime error occurs"""

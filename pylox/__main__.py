@@ -4,8 +4,8 @@ Main module for running the pylox application
 """
 
 import sys
-from cli import loxcli, programinfo
-from engine.lox import Lox
+from pylox.cli import loxcli, programinfo
+from pylox.engine.lox import Lox
 
 def main():
     lox = Lox()
@@ -35,5 +35,4 @@ def main():
         lox.run_prompt()
 
 
-if __name__ == "__main__":
-    main()
+main()

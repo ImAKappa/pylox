@@ -5,11 +5,11 @@ Module for printing the Abstract Syntax Tree
 
 # TODO: Update to handle Statements and not just Expressions
 
-from engine.loxtoken import Token, TokenType
-from engine.expr import Visitor, Expr, Binary, Grouping, Literal, Unary, Variable, Assign
-import engine.expr as expr
-from engine.stmt import Stmt, Expression
-import engine.stmt as stmt
+from pylox.engine.loxtoken import Token, TokenType
+from pylox.engine.expr import Visitor, Expr, Binary, Grouping, Literal, Unary, Variable, Assign
+import pylox.engine.expr as expr
+from pylox.engine.stmt import Stmt, Expression
+import pylox.engine.stmt as stmt
 
 class AstPrinter(expr.Visitor, stmt.Visitor):
 

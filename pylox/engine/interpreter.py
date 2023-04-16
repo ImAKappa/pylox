@@ -4,18 +4,18 @@ Module for Interpreter component of Lox interpreter
 """
 
 # logs
-from utils.ezlog import new_logger
+from pylox.utils.ezlog import new_logger
 logger = new_logger(__name__)
 from rich import print as rprint
 # app
-from engine.loxtoken import Token, TokenType
-from engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
-import engine.expr as expr
-from engine.stmt import Expression, Print, Var, Block
-import engine.stmt as stmt
-from engine.environment import Environment, BindingError, UninitializedError
+from pylox.engine.loxtoken import Token, TokenType
+from pylox.engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
+import pylox.engine.expr as expr
+from pylox.engine.stmt import Expression, Print, Var, Block
+import pylox.engine.stmt as stmt
+from pylox.engine.environment import Environment, BindingError, UninitializedError
 # errors
-from engine.errors import Error
+from pylox.engine.errors import Error
 
 class LoxRuntimeError(Error):
     """Raise when runtime error occurs"""

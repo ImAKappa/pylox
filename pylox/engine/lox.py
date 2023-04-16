@@ -11,14 +11,14 @@ import sys
 # rich
 from rich import print as rprint
 # app
-from engine.loxtoken import Token, TokenType
-from cli.astprinter import AstPrinter
-from engine.scanner import Scanner, ScannerError
-from engine.loxparser import Parser, ParserError
-from engine.interpreter import Interpreter, LoxRuntimeError
+from pylox.engine.loxtoken import Token, TokenType
+from pylox.cli.astprinter import AstPrinter
+from pylox.engine.scanner import Scanner, ScannerError
+from pylox.engine.loxparser import Parser, ParserError
+from pylox.engine.interpreter import Interpreter, LoxRuntimeError
 # logs
 import logging
-from utils.ezlog import new_logger
+from pylox.utils.ezlog import new_logger
 logger = new_logger(__name__)
 
 class Lox:

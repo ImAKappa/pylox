@@ -5,8 +5,8 @@ Module for defining Lox statments
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from engine.loxtoken import Token
-from engine.expr import Expr
+from pylox.engine.loxtoken import Token
+from pylox.engine.expr import Expr
 
 class Visitor:
 

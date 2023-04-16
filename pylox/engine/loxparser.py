@@ -4,15 +4,15 @@ Module for parsing lox tokens into an AST
 """
 
 # logs
-from utils.ezlog import new_logger
+from pylox.utils.ezlog import new_logger
 logger = new_logger(__name__)
 
-from engine.errors import Error
+from pylox.engine.errors import Error
 
-from engine.loxtoken import Token, TokenType
-from engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
-from engine.stmt import Stmt
-import engine.stmt as stmt
+from pylox.engine.loxtoken import Token, TokenType
+from pylox.engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
+from pylox.engine.stmt import Stmt
+import pylox.engine.stmt as stmt
 
 class ParserError(Error):
     """Rase when error occurs during Parsing of tokens"""

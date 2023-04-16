@@ -5,7 +5,7 @@ Module for defining Expression nodes in the Lox AST
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from engine.loxtoken import Token
+from pylox.engine.loxtoken import Token
 
 class Visitor(ABC):
     
