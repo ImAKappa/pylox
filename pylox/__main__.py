@@ -28,7 +28,7 @@ def main():
 
     if args.src:
         if not args.src.exists():
-            print("Could not find file")
+            print(f"[Error] Could not find file: '{args.src.absolute()}'")
             sys.exit(64)
         lox.run_file(args.src)
     else:

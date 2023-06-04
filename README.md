@@ -78,3 +78,4 @@ Ch 8. Statements and State
 - [X] Evaulate expressions in REPL
 - [X] Runtime error when accessing uninitialized variables
 
+Ch 9. Control Flow

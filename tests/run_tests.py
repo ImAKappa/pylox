@@ -8,11 +8,11 @@ Script that automatically runs the Lox interpreter on each of the loxtest source
 # Note: Each test file also contains the expected output
 
 from pathlib import Path
-from contextlib import redirect_stdout
 import io
 import subprocess
 
 def clean_out(out: bytes):
+    """"""
     program_out = out.decode("utf-8").strip()
     if "expect:" in program_out:
         return program_out.replace("'", "").splitlines()
@@ -36,7 +36,8 @@ if __name__ == "__main__":
     fp = Path('./loxtests/print/missing_argument.lox')
     process = subprocess.Popen(['python', str(app), '--src', fp], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
-    program_out = clean_out(out)
+    # program_out = clean_out(out)
+    program_out = out
     expected_out = parse_expected(fp)
 
     print(f"Testing {str(fp)}")

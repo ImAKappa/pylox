@@ -80,3 +80,12 @@ class Block(Stmt):
 
     def accept(self, visitor: Visitor):
         return visitor.visit_block(self)
+    
+@dataclass
+class If(Stmt):
+    condition: Expr
+    then_branch: Stmt
+    else_branch: Stmt
+
+    def accept(self, visitor: Visitor):
+        return visitor.visit_if(self)
