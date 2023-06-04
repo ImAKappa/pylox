@@ -9,9 +9,7 @@ logger = new_logger(__name__)
 from rich import print as rprint
 # app
 from pylox.engine.loxtoken import Token, TokenType
-from pylox.engine.expr import Expr, Binary, Unary, Literal, Grouping, Variable, Assign
 import pylox.engine.expr as expr
-from pylox.engine.stmt import Expression, Print, Var, Block
 import pylox.engine.stmt as stmt
 from pylox.engine.environment import Environment, BindingError, UninitializedError
 # errors
@@ -64,23 +62,26 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
         return f"[gold3]'{obj}'[/gold3]"
 
-    def evaluate(self, expr: Expr):
+    def evaluate(self, expr: expr.Expr):
         return expr.accept(self)
 
     # --- Statements
 
-    def visit_expression(self, stmt: Expression):
+    def visit_expression(self, stmt: stmt.Expression):
         value = self.evaluate(stmt.expression)
         if self.repl_mode:
             rprint(self.stringify(value))
         return
+    
+    def visit_if(self, stmt: stmt.If):
+        pass
 
-    def visit_print(self, stmt: Print) -> None:
+    def visit_print(self, stmt: stmt.Print) -> None:
         value = self.evaluate(stmt.expression)
         rprint(self.stringify(value))
         return
 
-    def visit_var(self, stmt: Var):
+    def visit_var(self, stmt: stmt.Var):
         value = None
         if stmt.initializer:
             value = self.evaluate(stmt.initializer)
@@ -88,7 +89,7 @@ class Interpreter(expr.Visitor, stmt.Visitor):
         self.environment.define(stmt.name.lexeme, value)
         return
 
-    def visit_block(self, stmt: Block):
+    def visit_block(self, stmt: stmt.Block):
         self.execute_block(stmt.statements, Environment(self.environment))
         return
 
@@ -107,10 +108,10 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
     # --- Expressions
 
-    def visit_literal(self, expr: Literal):
+    def visit_literal(self, expr: expr.Literal):
         return expr.value
 
-    def visit_grouping(self, expr: Grouping):
+    def visit_grouping(self, expr: expr.Grouping):
         return self.evaluate(expr.expression)
 
     def is_truthy(self, obj):
@@ -123,7 +124,7 @@ class Interpreter(expr.Visitor, stmt.Visitor):
         if isinstance(operand, float): return
         raise LoxRuntimeError(operator, "Operand must be a number.")
 
-    def visit_unary(self, expr: Unary):
+    def visit_unary(self, expr: expr.Unary):
         right = self.evaluate(expr.right)
 
         match expr.operator.tokentype:
@@ -136,10 +137,10 @@ class Interpreter(expr.Visitor, stmt.Visitor):
         # Unreachable
         return
 
-    def visit_variable(self, expr: Variable):
+    def visit_variable(self, expr: expr.Variable):
         return self.environment.get(expr.name)
 
-    def visit_assign(self, expr: Assign):
+    def visit_assign(self, expr: expr.Assign):
         value = self.evaluate(expr.value)
         self.environment.assign(expr.name, value)
         return value
@@ -158,7 +159,7 @@ class Interpreter(expr.Visitor, stmt.Visitor):
             raise LoxRuntimeError(operator, "Division by Zero is undefined")
         return
 
-    def visit_binary(self, expr: Binary):
+    def visit_binary(self, expr: expr.Binary):
         left = self.evaluate(expr.left)
         right = self.evaluate(expr.right)
 
