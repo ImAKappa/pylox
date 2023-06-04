@@ -1,9 +1,0 @@
-/* 
-* hello
-*/
-
-print "ok";
-
-/* block comment */
-
-print "still ok";

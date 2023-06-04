@@ -1,9 +1,9 @@
 from pathlib import Path
 import io
 import subprocess
+import tempfile
 
 def test_cli():
-    app = Path('./pylox/pylox.py')
-    process = subprocess.Popen(['python', str(app), '--src ./fake.txt'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(["python", "-m", "pylox", "--src", "./fake923876508.txt"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
-    assert out == "Could not find file"
+    assert out.decode("utf-8").strip() == "[Error] Could not find file: 'fake923876508.txt'"
