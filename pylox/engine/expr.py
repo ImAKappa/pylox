@@ -83,3 +83,7 @@ class Assign(Expr):
 
     def accept(self, visitor: Visitor):
         return visitor.visit_assign(self)
+    
+# @dataclass
+# class Logical(Expr):
+#     left: 

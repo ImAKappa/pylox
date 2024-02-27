@@ -67,35 +67,34 @@ class Interpreter(expr.Visitor, stmt.Visitor):
 
     # --- Statements
 
-    def visit_expression(self, stmt: stmt.Expression):
+    def visit_expression(self, stmt: stmt.Expression) -> None:
         value = self.evaluate(stmt.expression)
         if self.repl_mode:
             rprint(self.stringify(value))
-        return
     
-    def visit_if(self, stmt: stmt.If):
-        pass
+    def visit_if(self, stmt: stmt.If) -> None:
+        if self.is_truthy(self.evaluate(stmt.condition)):
+            self.execute(stmt.then_branch)
+        elif stmt.else_branch:
+            self.execute(stmt.else_branch)
 
     def visit_print(self, stmt: stmt.Print) -> None:
         value = self.evaluate(stmt.expression)
         rprint(self.stringify(value))
-        return
 
-    def visit_var(self, stmt: stmt.Var):
+    def visit_var(self, stmt: stmt.Var) -> None:
         value = None
         if stmt.initializer:
             value = self.evaluate(stmt.initializer)
         
         self.environment.define(stmt.name.lexeme, value)
-        return
 
-    def visit_block(self, stmt: stmt.Block):
+    def visit_block(self, stmt: stmt.Block) -> None:
         self.execute_block(stmt.statements, Environment(self.environment))
-        return
 
     # ---
 
-    def execute_block(self, statements: list[stmt.Stmt], environment: Environment):
+    def execute_block(self, statements: list[stmt.Stmt], environment: Environment) -> None:
         previous = self.environment
         try:
             self.environment = environment
@@ -104,23 +103,22 @@ class Interpreter(expr.Visitor, stmt.Visitor):
                 self.execute(statement)
         finally:
             self.environment = previous
-        return
 
     # --- Expressions
 
-    def visit_literal(self, expr: expr.Literal):
+    def visit_literal(self, expr: expr.Literal) -> object:
         return expr.value
 
-    def visit_grouping(self, expr: expr.Grouping):
+    def visit_grouping(self, expr: expr.Grouping) -> None:
         return self.evaluate(expr.expression)
 
-    def is_truthy(self, obj):
+    def is_truthy(self, obj) -> bool:
         # Only False and nil are False. Everything else is True
         if obj is None: return False
         if isinstance(obj, bool): return obj
         return True
 
-    def check_number_operand(self, operator: Token, operand):
+    def check_number_operand(self, operator: Token, operand) -> None:
         if isinstance(operand, float): return
         raise LoxRuntimeError(operator, "Operand must be a number.")
 
