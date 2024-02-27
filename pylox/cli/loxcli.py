@@ -21,7 +21,7 @@ def toggle_debug(debug_on: bool):
 @dataclass
 class Args:
     src: Path | None
-    debug_on: bool
+    debug: bool
     rpolish: bool
 
 def get_args() -> Args:
@@ -31,4 +31,4 @@ def get_args() -> Args:
     parser.add_argument("--debug", help="switch to debug mode", action="store_true", default=False)
     parser.add_argument("--rpolish", help="ast prints using Reverse Polish Notation", action="store_true", default=False)
     args = parser.parse_args()
-    return Args(args.debug, args.src, args.rpolish)
+    return Args(args.src, args.debug, args.rpolish)

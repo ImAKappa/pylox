@@ -13,7 +13,7 @@ from pylox.engine.lox import Lox
 def run(args: Args) -> None:
     """Runs the Pylox interpreter, given some arguments"""
     lox = Lox()
-    loxcli.toggle_debug(args.debug_on)
+    loxcli.toggle_debug(args.debug)
 
     if args.rpolish:
         lox.astprinter.rev_polish_notation = True
