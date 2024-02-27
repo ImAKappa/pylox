@@ -45,7 +45,7 @@ dependencies = [
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=pylox --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 pylox = "python -m pylox {args}"
-test = "python ./tests/run_tests.py"
+test = "pytest ./tests"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]

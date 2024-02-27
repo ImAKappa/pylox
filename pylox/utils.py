@@ -1,13 +1,15 @@
-"""ezlog.py
+"""utils.py
 
-Utility for initializing a logger. 
-This module extracts some of the boilerplate logger setup into a simple function.
+Module for utility functions
 """
 
 import logging
 from rich.logging import RichHandler
 
 def new_logger(name, global_loglevel=logging.ERROR):
+    """Utility for initializing a logger.
+    This module extracts some of the boilerplate logger setup into a simple function.
+    """
     FORMAT = "%(message)s"
     logging.basicConfig(
         level=global_loglevel, format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
@@ -19,3 +21,4 @@ def new_logger(name, global_loglevel=logging.ERROR):
     else:
         logger.setLevel(global_loglevel)
     return logger
+

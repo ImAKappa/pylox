@@ -4,7 +4,7 @@ Module for parsing lox tokens into an AST
 """
 
 # logs
-from pylox.utils.ezlog import new_logger
+from pylox.utils import new_logger
 logger = new_logger(__name__)
 
 from pylox.engine.errors import Error

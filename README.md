@@ -20,24 +20,25 @@ by Bob Nystrom.
     - [Verbose REPL](#verbose-repl)
     - [Source files](#source-files)
   - [Installation](#installation)
-  - [License](#license)
   - [Challenges](#challenges)
+  - [Architecture of `pylox`](#architecture-of-pylox)
+  - [License](#license)
 
 ## Demo
 
 ### REPL
 
-![pylox demo](./pylox-demo.png)
+![pylox demo](./img/pylox-demo.png)
 
 ### Verbose REPL
 
 Useful for debugging
 
-![pylox demo verbose](./pylox-demo-verbose.png)
+![pylox demo verbose](./img/pylox-demo-verbose.png)
 
 ### Source files
 
-![pylox demo src](./pylox-demo-src.png)
+![pylox demo src](./img/pylox-demo-src.png)
 
 ## Installation
 
@@ -46,11 +47,6 @@ Pull from Github
 > Requires Python 3.10 or later
 
 I use [Hatch](https://hatch.pypa.io/latest/) to manage the Python environment
-
-
-## License
-
-`pylox` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
 
 ## Challenges
 
@@ -79,3 +75,16 @@ Ch 8. Statements and State
 - [X] Runtime error when accessing uninitialized variables
 
 Ch 9. Control Flow
+
+
+## Architecture of `pylox`
+
+**cli**: handles command line interface (cli) options, cli formatting, stdin/stdout.
+
+**utils**: helper utilities; not particularly significant to the function of the app, but convenient.
+
+**engine**: the core of the pylox interpreter
+
+## License
+
+`pylox` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.

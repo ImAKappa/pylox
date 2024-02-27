@@ -18,7 +18,7 @@ from pylox.engine.loxparser import Parser, ParserError
 from pylox.engine.interpreter import Interpreter, LoxRuntimeError
 # logs
 import logging
-from pylox.utils.ezlog import new_logger
+from pylox.utils import new_logger
 logger = new_logger(__name__)
 
 class Lox:

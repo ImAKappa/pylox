@@ -4,7 +4,7 @@ Module for Interpreter component of Lox interpreter
 """
 
 # logs
-from pylox.utils.ezlog import new_logger
+from pylox.utils import new_logger
 logger = new_logger(__name__)
 from rich import print as rprint
 # app

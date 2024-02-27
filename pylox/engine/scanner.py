@@ -4,7 +4,7 @@ Module for Scanner component of Lox Interpreter
 """
 
 # stdlib
-from pylox.utils.ezlog import new_logger
+from pylox.utils import new_logger
 logger = new_logger(__name__)
 # app modules
 from pylox.engine.loxtoken import Token, TokenType
