@@ -21,10 +21,10 @@ def run(args: Args) -> None:
     if args.src:
         if args.src.exists():
             lox.run_file(args.src)
-
-        # TODO: Output to stderror
-        stderr = Console(stderr=True)
-        stderr.print(f"[Error] Could not find file: '{args.src}'")
+        else:
+            # TODO: Output to stderror
+            stderr = Console(stderr=True)
+            stderr.print(f"[Error] Could not find file: '{args.src}'")
     else:
         pylox_info = programinfo.ProgramInfo(
             name="Lox",
